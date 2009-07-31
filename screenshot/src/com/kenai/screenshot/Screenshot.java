@@ -27,9 +27,13 @@ import javax.imageio.ImageIO;
 
 /**
  * Saves a copy of the current viewing area of all graphics devices to a file
+ *
+ * Note: This will save a copy of the screenshot to the screenshot directory by default
+ * So before uploading through Subversion, check to remove screenshots!
+ * 
  * @author tommy
  */
-public class ScreenCapture {
+public class Screenshot {
 
     // the screenshot
     private static BufferedImage bufferedImage;
@@ -57,7 +61,7 @@ public class ScreenCapture {
      * Writes a bufferedImage to a given file address
      * @return boolean success or failure of the write operation
      */
-    private static boolean write(BufferedImage bufferedImage, String filename)
+    public static boolean write(BufferedImage bufferedImage, String filename)
     {
         boolean write = false;
         try {
@@ -69,7 +73,12 @@ public class ScreenCapture {
         return write;
     }
 
-    public static int main(String[] args) {
+    /**
+     *
+     * @param args
+     * @return int representing the number of args
+     */
+    public static void main(String[] args) {
         if (args != null)
         {
             String filename = Filename.getFilename(args);
@@ -81,8 +90,8 @@ public class ScreenCapture {
             write(bufferedImage, filename);
         }
         else
-            ScreenCaptureError.throwError();
-        return args.length;
+            ScreenshotError.throwError();
+
     }
 
 }

@@ -67,9 +67,8 @@ class VirtualRectangle{
         return rectangle;
     }
 
-    public static boolean main(String[] args)
+    public static void main(String[] args)
     {
         System.out.println(VirtualRectangle.getVirtualRectangle());
-        return true;
     }
 }

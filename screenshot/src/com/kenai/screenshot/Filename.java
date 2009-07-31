@@ -23,31 +23,63 @@ package com.kenai.screenshot;
  * @author tommy
  */
 class Filename {
-    
+
+    /**
+     * Creates the filename from args
+     * @param args The comand line args from ScreenCapture
+     * @return String The filename, plus directory if necessary
+     */
     public static String getFilename(String[] args) {
-        java.util.Date date = new java.util.Date();
-        String filename = "ScreenShot_" + date.toString().replace(' ', '_').replace(':', '-') + ".jpg";
+
+        StringBuffer filename = new StringBuffer("screenshot");
         if ((args == null) || (args.length == 0)) {
-            // filename is ok
+            // filename is ok without any addition
             System.out.println("User Directory: " + System.getProperties().getProperty("user.dir") + "\\");
+        }
+        else if ((args.length == 1) && args[0].equals("-t"))
+        {
+            //add timestamp to filename
+            java.util.Date date = new java.util.Date();
+
+            // clean the date for windows
+            filename.append("_" + date.toString().replace(' ', '_').replace(':', '-'));
         }
         else if (args.length == 2)
         {
             if(args[0].equals("-d"))
             {
                 // add the directory to the filename
-                filename = args[1] + "\\" + filename;
+                filename.insert(0, args[1] + "\\");
             }
             else
             {
-                ScreenCaptureError.throwError();
+                ScreenshotError.throwError();
             }
         }
-        else
-            ScreenCaptureError.throwError();
+        else if ((args.length == 3) && (args[0].equals("-t")) && (args[1].equals("-d")))
+        {
+            // add timestamp and filename
+            
+            //add timestamp to filename
+            java.util.Date date = new java.util.Date();
 
+            // clean the date for windows
+            filename.append("_" + date.toString().replace(' ', '_').replace(':', '-'));
+
+            // add the directory to the filename
+            filename.insert(0, args[2] + "\\");
+        }
+        else
+            ScreenshotError.throwError();
+
+        filename.append(".jpg");
         System.out.println("Filename should be: " + filename);
 
-        return filename;
+        return filename.toString();
+    }
+
+    public static void main(String[] args)
+    {
+        System.out.println(Filename.getFilename(new String[0]));
     }
 }

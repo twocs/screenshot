@@ -5,7 +5,6 @@
 
 package com.kenai.screenshot;
 
-import java.awt.Rectangle;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author tommy
  */
-public class VirtualRectangleTest {
+public class ScreenshotErrorTest {
 
-    public VirtualRectangleTest() {
+    public ScreenshotErrorTest() {
     }
 
     @BeforeClass
@@ -39,23 +38,23 @@ public class VirtualRectangleTest {
     }
 
     /**
-     * Test of main method, of class VirtualRectangle.
+     * Test of throwError method, of class ScreenCaptureError.
      */
     @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        VirtualRectangle.main(args);
+    public void testThrowError() {
+        System.out.println("throwError");
+        System.out.println("Can't test class completely because it calls System.exit() to stop the Java VM");
     }
 
     /**
-     * Test of getVirtualRectangle method, of class VirtualRectangle.
+     * Test of printUsage method, of class ScreenCaptureError.
      */
     @Test
-    public void testGetVirtualRectangle() {
-        System.out.println("getVirtualRectangle");
-        Rectangle result = VirtualRectangle.getVirtualRectangle();
-        assertNotNull(result);
+    public void testPrintUsage() {
+        System.out.println("printUsage");
+        int expResult = 1;
+        int result = ScreenshotError.printUsage();
+        assertEquals(expResult, result);
     }
 
 }
