@@ -22,10 +22,22 @@ package com.kenai.screenshot;
  *
  * @author tommy
  */
-class ScreenCaptureError {
+class ScreenshotError extends Throwable{
     public static void throwError() {
-        System.err.println("Error!\n\n" +
-                    "Usage: screencapture [-d directory]");
+        printUsage();
         System.exit(0);
+    }
+
+    public static int printUsage() {
+        System.err.println("Error!\n\n" +
+            "Usage: screencapture [-t][-d directory]\n" +
+            "\n" +
+            "-t\tAdd timestamp\n" +
+            "-d\tDestination directory");
+        return 1;
+    }
+
+    public static void main(String[] args){
+        ScreenshotError.throwError();
     }
 }

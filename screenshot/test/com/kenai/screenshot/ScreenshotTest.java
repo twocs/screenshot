@@ -31,9 +31,9 @@ import static org.junit.Assert.*;
  *
  * @author tommy
  */
-public class ScreenCaptureTest {
+public class ScreenshotTest {
 
-    public ScreenCaptureTest() {
+    public ScreenshotTest() {
     }
 
     @BeforeClass
@@ -58,7 +58,7 @@ public class ScreenCaptureTest {
     @Test
     public void testCapture() {
         System.out.println("capture");
-        BufferedImage result = ScreenCapture.capture();
+        BufferedImage result = Screenshot.capture();
         assertNotNull(result);
     }
 
@@ -70,14 +70,13 @@ public class ScreenCaptureTest {
         // test it can run
         System.out.println("main");
         String[] args = new String[0];
-        assertEquals(ScreenCapture.main(args), 0);
+        Screenshot.main(args);
 
         // test it can run with a default location, like C:
         String[] args2 = new String[2];
         args2[0] = "-d";
         args2[1] = "E:\\screenshots";
-        assertEquals(ScreenCapture.main(args2), 2);
-
+        Screenshot.main(args);
     }
 
 }
