@@ -53,7 +53,7 @@ class Filename {
             }
             else
             {
-                ScreenshotError.throwError();
+                throw new CommandlineArgsException();
             }
         }
         else if ((args.length == 3) && (args[0].equals("-t")) && (args[1].equals("-d")))
@@ -70,7 +70,7 @@ class Filename {
             filename.insert(0, args[2] + "\\");
         }
         else
-            ScreenshotError.throwError();
+            throw new CommandlineArgsException();
 
         filename.append(".jpg");
         System.out.println("Filename should be: " + filename);

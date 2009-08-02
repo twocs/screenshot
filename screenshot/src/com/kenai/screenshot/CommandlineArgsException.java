@@ -22,10 +22,14 @@ package com.kenai.screenshot;
  *
  * @author tommy
  */
-class ScreenshotError extends Throwable{
-    public static void throwError() {
+class CommandlineArgsException extends RuntimeException{
+
+    public CommandlineArgsException(){
+        throwError();
+    }
+    private static void throwError() {
         printUsage();
-        System.exit(0);
+        //System.exit(0);
     }
 
     public static int printUsage() {
@@ -38,6 +42,6 @@ class ScreenshotError extends Throwable{
     }
 
     public static void main(String[] args){
-        ScreenshotError.throwError();
+        CommandlineArgsException.throwError();
     }
 }

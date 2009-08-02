@@ -67,6 +67,11 @@ public class ScreenshotTest {
      */
     @Test
     public void testMain() {
+        // null args
+        String[] argsNull = new String[0];
+        Screenshot.main(argsNull);
+
+
         // test it can run
         System.out.println("main");
         String[] args = new String[0];
@@ -79,4 +84,8 @@ public class ScreenshotTest {
         Screenshot.main(args);
     }
 
+    @Test
+    public void testExists() {
+        assertEquals("com.kenai.screenshot.Screenshot", Screenshot.class.getName());
+    }
 }

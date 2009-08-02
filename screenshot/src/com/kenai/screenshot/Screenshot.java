@@ -90,7 +90,7 @@ public class Screenshot {
             write(bufferedImage, filename);
         }
         else
-            ScreenshotError.throwError();
+            throw new CommandlineArgsException();
 
     }
 
