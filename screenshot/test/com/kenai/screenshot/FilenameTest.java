@@ -70,4 +70,9 @@ public class FilenameTest {
         assertEquals(jpgExpect3, jpgResult3);
     }
 
+    @Test
+    public void testExists() {
+        assertEquals("com.kenai.screenshot.Filename", Filename.class.getName());
+    }
+
 }

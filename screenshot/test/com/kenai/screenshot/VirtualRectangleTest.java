@@ -58,4 +58,8 @@ public class VirtualRectangleTest {
         assertNotNull(result);
     }
 
+    @Test
+    public void testExists() {
+        assertEquals("com.kenai.screenshot.VirtualRectangle", VirtualRectangle.class.getName());
+    }
 }
