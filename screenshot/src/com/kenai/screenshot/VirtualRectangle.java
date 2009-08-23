@@ -51,7 +51,7 @@ class VirtualRectangle{
             // if there is more than one monitor, then union all the rectangles
             else
             {
-                rectangle = new Rectangle();
+                rectangle = new Rectangle(); // don't let rectangle be null
                 for(java.awt.GraphicsDevice tmp:graphicsDevices){
                     // get the rectangle for the given GraphicsDevice
                     Rectangle tmpRect = tmp.getDefaultConfiguration().getBounds();

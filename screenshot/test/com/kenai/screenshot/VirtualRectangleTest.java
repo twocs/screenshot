@@ -5,6 +5,8 @@
 
 package com.kenai.screenshot;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,13 +41,25 @@ public class VirtualRectangleTest {
     }
 
     /**
-     * Test of main method, of class VirtualRectangle.
+     * Test of getVirtualRectangle method, of class VirtualRectangle.
      */
     @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        VirtualRectangle.main(args);
+    public void testInitialize() {
+        System.out.println("initialize");
+        Rectangle tmp = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        VirtualRectangle();
+    }
+    
+    /**
+     * Test of getVirtualRectangle method, of class VirtualRectangle.
+     */
+    @Test
+    public void testGetDefaultConfiguration() {
+        System.out.println("getDefaultConfiguration");
+        GraphicsDevice tmp = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+        //Rectangle result = VirtualRectangle.getDefaultConfiguration(tmp);
+        //System.err.println(result);
+        //assertNotNull(result);
     }
 
     /**
@@ -55,11 +69,26 @@ public class VirtualRectangleTest {
     public void testGetVirtualRectangle() {
         System.out.println("getVirtualRectangle");
         Rectangle result = VirtualRectangle.getVirtualRectangle();
+        System.err.println(result);
         assertNotNull(result);
+    }
+
+    /**
+     * Test of main method, of class VirtualRectangle.
+     */
+    @Test
+    public void testMain() {
+        System.out.println("main");
+        String[] args = null;
+        VirtualRectangle.main(args);
     }
 
     @Test
     public void testExists() {
         assertEquals("com.kenai.screenshot.VirtualRectangle", VirtualRectangle.class.getName());
+    }
+
+    private void VirtualRectangle() {
+        
     }
 }
