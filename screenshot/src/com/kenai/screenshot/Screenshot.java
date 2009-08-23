@@ -23,6 +23,8 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -37,24 +39,25 @@ public class Screenshot {
 
     // the screenshot
     private static BufferedImage bufferedImage;
-
+    private static Robot robot;
+    static {
+        try {
+            robot = new Robot();
+        } catch (AWTException ex) {
+            Logger.getLogger(Screenshot.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * capture() captures a screenshot
      * @return BufferedImage the screenshot
      */
     public static BufferedImage capture()
     {
-        try {
-            // Capture the screen shot of the area of the screen defined by VirtualRectangle
-            Robot robot = new Robot();
-            bufferedImage = robot.createScreenCapture(VirtualRectangle.getVirtualRectangle());
+        // Capture the screen shot of the area of the screen defined by VirtualRectangle
+        bufferedImage = robot.createScreenCapture(VirtualRectangle.getVirtualRectangle());
 
-            // return the captured image
-            return bufferedImage;
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
-        return null;
+        // return the captured image
+        return bufferedImage;
     }
 
     /**
@@ -62,15 +65,19 @@ public class Screenshot {
      * @return boolean success or failure of the write operation
      */
     public static boolean write(BufferedImage bufferedImage, String filename)
-    {
-        boolean write = false;
-        try {
-            write = ImageIO.write(bufferedImage, "jpg", new File(filename));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return write;
+            throws IOException {
+        // sanity checks for bufferedImage/filename?
+//        if (bufferedImage == null) {
+//            System.err.println("bufferedImage is null in Screenshot.write()");
+//            return false; //failed because string name is empty
+//        }
+
+//        if(filename.isEmpty()) {
+//            System.err.println("Filename error in Screenshot.write()");
+//            return false; //failed because string name is empty
+//        }
+        // return true if write is successful
+        return ImageIO.write(bufferedImage, "jpg", new File(filename)); 
     }
 
     /**
@@ -86,8 +93,15 @@ public class Screenshot {
             // capture the screen
             capture();
 
-            // write the screen to the file
-            write(bufferedImage, filename);
+            try
+            {
+                // write the screen to the file
+                write(bufferedImage, filename);
+            }
+            catch (IOException e)
+            {
+                System.err.println(e);
+            }
         }
         else
             throw new CommandlineArgsException();
