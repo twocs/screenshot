@@ -40,7 +40,10 @@ public class Screenshot {
     // the screenshot
     private static BufferedImage bufferedImage;
     private static Robot robot;
+    private static Thread virtualRectangleThread;
     static {
+        virtualRectangleThread = new Thread(new VirtualRectangle());
+        virtualRectangleThread.run();
         try {
             robot = new Robot();
         } catch (AWTException ex) {
@@ -53,6 +56,11 @@ public class Screenshot {
      */
     public static BufferedImage capture()
     {
+        try {
+            virtualRectangleThread.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Screenshot.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // Capture the screen shot of the area of the screen defined by VirtualRectangle
         bufferedImage = robot.createScreenCapture(VirtualRectangle.getVirtualRectangle());
 
@@ -62,20 +70,23 @@ public class Screenshot {
 
     /**
      * Writes a bufferedImage to a given file address
+     * @param bufferedImage 
+     * @param filename the name of the filename to be written
      * @return boolean success or failure of the write operation
+     * @throws IOException
      */
     public static boolean write(BufferedImage bufferedImage, String filename)
             throws IOException {
         // sanity checks for bufferedImage/filename?
-//        if (bufferedImage == null) {
-//            System.err.println("bufferedImage is null in Screenshot.write()");
-//            return false; //failed because string name is empty
-//        }
+        if (bufferedImage == null) {
+            System.err.println("bufferedImage is null in Screenshot.write()");
+            return false; //failed because string name is empty
+        }
 
-//        if(filename.isEmpty()) {
-//            System.err.println("Filename error in Screenshot.write()");
-//            return false; //failed because string name is empty
-//        }
+        if(filename.isEmpty()) {
+            System.err.println("Filename error in Screenshot.write()");
+            return false; //failed because string name is empty
+        }
         // return true if write is successful
         return ImageIO.write(bufferedImage, "jpg", new File(filename)); 
     }
@@ -83,12 +94,12 @@ public class Screenshot {
     /**
      *
      * @param args
-     * @return int representing the number of args
      */
     public static void main(String[] args) {
         if (args != null)
         {
             String filename = Filename.getFilename(args);
+            Thread filenameThread = new Thread(new Filename());
 
             // capture the screen
             capture();
@@ -103,8 +114,9 @@ public class Screenshot {
                 System.err.println(e);
             }
         }
-        else
+        else {
             throw new CommandlineArgsException();
+        }
 
     }
 

@@ -22,7 +22,7 @@ package com.kenai.screenshot;
  *
  * @author tommy
  */
-class Filename {
+class Filename implements Runnable{
 
     /**
      * Creates the filename from args
@@ -69,8 +69,9 @@ class Filename {
             // add the directory to the filename
             filename.insert(0, args[2] + "\\");
         }
-        else
+        else {
             throw new CommandlineArgsException();
+        }
 
         filename.append(".jpg");
         System.out.println("Filename should be: " + filename);
@@ -78,8 +79,14 @@ class Filename {
         return filename.toString();
     }
 
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     public static void main(String[] args)
     {
         System.out.println(Filename.getFilename(new String[0]));
     }
+
+
 }

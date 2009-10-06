@@ -40,26 +40,34 @@ public class VirtualRectangleTest {
     public void tearDown() {
     }
 
+//    /**
+//     * Test of getVirtualRectangle method, of class VirtualRectangle.
+//     */
+//    @Test
+//    public void testInitialize() {
+//        System.out.println("initialize");
+//        Rectangle result = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+//        assertNotNull(result);
+//    }
+
     /**
-     * Test of getVirtualRectangle method, of class VirtualRectangle.
+     * Test of getScreenSize method, of class VirtualRectangle.
      */
     @Test
-    public void testInitialize() {
-        System.out.println("initialize");
-        Rectangle tmp = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-        VirtualRectangle();
+    public void testGetScreenSize() {
+        System.out.println("getScreenSize");
+        Rectangle result = VirtualRectangle.getScreenSize();
+        assertNotNull(result);
     }
-    
+
     /**
      * Test of getVirtualRectangle method, of class VirtualRectangle.
      */
     @Test
     public void testGetDefaultConfiguration() {
         System.out.println("getDefaultConfiguration");
-        GraphicsDevice tmp = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-        //Rectangle result = VirtualRectangle.getDefaultConfiguration(tmp);
-        //System.err.println(result);
-        //assertNotNull(result);
+        GraphicsDevice result = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+        assertNotNull(result);
     }
 
     /**
@@ -86,9 +94,5 @@ public class VirtualRectangleTest {
     @Test
     public void testExists() {
         assertEquals("com.kenai.screenshot.VirtualRectangle", VirtualRectangle.class.getName());
-    }
-
-    private void VirtualRectangle() {
-        
     }
 }
