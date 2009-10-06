@@ -18,15 +18,19 @@
 
 package com.kenai.screenshot;
 
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author tommy
  */
-class VirtualRectangle{
+class VirtualRectangle implements Runnable{
 
     private static GraphicsEnvironment graphicsEnvironment;
 
@@ -36,8 +40,10 @@ class VirtualRectangle{
     // assuming that this computer has a virtual display, then get the max rectangle size
     private static Rectangle rectangle;
 
-    public static Rectangle getVirtualRectangle()
-    {
+    // initialize the switch to false; true if the rectangle has been set
+    private static boolean rectangleSwitch = false;
+
+    public static void setVirtualRectangle(){
         graphicsEnvironment = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
         graphicsDevices = graphicsEnvironment.getScreenDevices();
 
@@ -46,7 +52,7 @@ class VirtualRectangle{
             // if there is only one monitor, then take a screenshot
             if(graphicsDevices.length == 1)
             {
-                rectangle = graphicsDevices[0].getDefaultConfiguration().getBounds();
+                rectangle = getScreenSize();
             }
             // if there is more than one monitor, then union all the rectangles
             else
@@ -60,15 +66,48 @@ class VirtualRectangle{
                     rectangle = rectangle.union(tmpRect);
                 }
             }
+            //success!
+            rectangleSwitch = true;
         }
         else {
+            //unsuccessful ^_^
+            rectangleSwitch = false;
+
+            //print error
             System.err.println("There aren't any display devices");
+        }
+    }
+
+    public static Rectangle getVirtualRectangle()
+    {
+        if(rectangleSwitch==false){
+            setVirtualRectangle();
         }
         return rectangle;
     }
 
+    public static Rectangle getScreenSize(){
+        Frame frame = new Frame();
+        Dimension dimension = frame.getToolkit().getScreenSize();
+        return new Rectangle(0,0,dimension.width,dimension.height);
+    }
+
     public static void main(String[] args)
     {
+        VirtualRectangle virtualRectangle = new VirtualRectangle();
+        Thread virtualRectangleThread = new Thread(virtualRectangle);
+        virtualRectangleThread.run();
+        try {
+            //System.out.println(VirtualRectangle.getVirtualRectangle());
+            virtualRectangleThread.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(VirtualRectangle.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         System.out.println(VirtualRectangle.getVirtualRectangle());
+    }
+
+    public void run() {
+        getVirtualRectangle();
     }
 }
